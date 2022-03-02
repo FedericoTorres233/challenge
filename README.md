@@ -1,5 +1,14 @@
 # Smart Contract Challenge
 
+# TODO:
+* ~~Only owner can deposit~~
+* User deposits + times?
+* ~~Emit instead of return~~
+* ~~Don't request address manually~~
+* Tests
+* Deploy
+* Web3
+
 ## A) Challenge
 
 ### 1) Setup a project and create a contract
