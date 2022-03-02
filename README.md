@@ -2,7 +2,7 @@
 
 # TODO:
 * ~~Only owner can deposit~~
-* User deposits + times?
+* ~~User deposits + times?~~
 * ~~Emit instead of return~~
 * ~~Don't request address manually~~
 * Tests
