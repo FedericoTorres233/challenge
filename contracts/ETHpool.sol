@@ -8,7 +8,7 @@ contract ETHPool{
     mapping (address => uint256) percentage;
     Person[] participants;
     uint256 pool;
-    event SendFunds(address to,uint256 amount);
+    event SendFunds(address from,address to,uint256 amount);
 
     constructor(){
         owner = msg.sender;
@@ -34,9 +34,9 @@ contract ETHPool{
         delete participants;
     }
 
-    function withdrawFunds(address userAddress) public {
-        uint256 funds = percentage[userAddress];
-        delete percentage[userAddress];
-        emit SendFunds(msg.sender, funds);
+    function withdrawFunds() public {
+        uint256 funds = percentage[msg.sender];
+        delete percentage[msg.sender];
+        emit SendFunds(owner, msg.sender, funds);
     }
 }
