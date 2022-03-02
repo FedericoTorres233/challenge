@@ -23,7 +23,6 @@ Example:
 > What if the following happens? **A** deposits then **T** deposits then **B** deposits then **A** withdraws and finally **B** withdraws.
 > **A** should get their deposit + all the rewards.
 > **B** should only get their deposit because rewards were sent to the pool before they participated.
-
 #### Goal
 
 Design and code a contract for ETHPool, take all the assumptions you need to move forward.
