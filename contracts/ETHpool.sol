@@ -4,7 +4,7 @@ pragma solidity >=0.6.0;
 
 contract ETHPool{
 
-    address public owner;
+    address private owner;
     mapping (address => uint256) percentage;
     Person[] participants;
     uint256 pool;
