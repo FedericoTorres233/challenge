@@ -1,14 +1,16 @@
 {
   "name": "challenge",
   "version": "1.0.0",
-  "description": "",
+  "description": "My solution to exactly-finance's solidity challenge",
   "main": "truffle-config.js",
   "directories": {
     "test": "test"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Federico Torres - Github: https://github.com/FedericoTorres233",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.6"
+  }
 }
