@@ -1,6 +1,10 @@
 const ETHpool = artifacts.require("ETHpool");
 const expect = require("chai").expect;
 
+function withdrawn(reward, deposited, pool_) {
+  return (reward * deposited) / pool_ + deposited;
+}
+
 contract("ETHpool", (account) => {
   [Team, A, B, C] = account;
   console.log(A, B, C, Team);
@@ -84,10 +88,10 @@ contract("ETHpool", (account) => {
       const balanceA = await ETHpoolInstance.withdrawFunds({ from: A });
       const balanceB = await ETHpoolInstance.withdrawFunds({ from: B });
       expect(balanceA.logs[0].args.amount.toNumber()).to.equal(
-        Math.floor((500 * 200) / 600 + 200)
+        Math.trunc((500 * 200) / 600 + 200)
       );
       expect(balanceB.logs[0].args.amount.toNumber()).to.equal(
-        Math.floor((500 * 400) / 600 + 400)
+        Math.trunc((500 * 400) / 600 + 400)
       );
     });
 
@@ -104,25 +108,25 @@ contract("ETHpool", (account) => {
       const balanceB = await ETHpoolInstance.withdrawFunds({ from: B });
       const balanceC = await ETHpoolInstance.withdrawFunds({ from: C });
       expect(balanceA.logs[0].args.amount.toNumber()).to.equal(
-        Math.floor((500 * 200) / 1350 + 200)
+        Math.trunc((500 * 200) / 1350 + 200)
       );
       expect(balanceB.logs[0].args.amount.toNumber()).to.equal(
-        Math.floor((500 * 400) / 1350 + 400)
+        Math.trunc((500 * 400) / 1350 + 400)
       );
       expect(balanceC.logs[0].args.amount.toNumber()).to.equal(
-        Math.floor((500 * 750) / 1350 + 750)
+        Math.trunc((500 * 750) / 1350 + 750)
       );
     });
 
     it(` RANDOM NUMBERS: A deposits then B deposits then A
     deposits then B deposits then C deposits 2 times again
     the Team deposits then both withdraw`, async () => {
-      const depositA = Math.floor(Math.random() * 1000);
-      const depositB1 = Math.floor(Math.random() * 1000);
-      const depositB2 = Math.floor(Math.random() * 1000);
-      const depositC1 = Math.floor(Math.random() * 1000);
-      const depositC2 = Math.floor(Math.random() * 1000);
-      const depositT = Math.floor(Math.random() * 1000);
+      const depositA = Math.trunc(Math.random() * 1000);
+      const depositB1 = Math.trunc(Math.random() * 1000);
+      const depositB2 = Math.trunc(Math.random() * 1000);
+      const depositC1 = Math.trunc(Math.random() * 1000);
+      const depositC2 = Math.trunc(Math.random() * 1000);
+      const depositT = Math.trunc(Math.random() * 1000);
       console.log(depositA, depositB1, depositC1, depositB2, depositC2);
       const pool = depositA + depositB1 + depositC1 + depositB2 + depositC2;
       await ETHpoolInstance.depositToPool(depositB1, { from: B });
@@ -135,17 +139,50 @@ contract("ETHpool", (account) => {
       const balanceB = await ETHpoolInstance.withdrawFunds({ from: B });
       const balanceC = await ETHpoolInstance.withdrawFunds({ from: C });
       expect(balanceA.logs[0].args.amount.toNumber()).to.equal(
-        Math.floor((depositT * depositA) / pool + depositA)
+        Math.trunc((depositT * depositA) / pool + depositA)
       );
       expect(balanceB.logs[0].args.amount.toNumber()).to.equal(
-        Math.floor(
+        Math.trunc(
           (depositT * (depositB1 + depositB2)) / pool + depositB1 + depositB2
         )
       );
       expect(balanceC.logs[0].args.amount.toNumber()).to.equal(
-        Math.floor(
+        Math.trunc(
           (depositT * (depositC1 + depositC2)) / pool + depositC1 + depositC2
         )
+      );
+    });
+
+    it(`Team deposits two times but withdraw at the end`, async () => {
+      await ETHpoolInstance.depositToPool(300, { from: B });
+      await ETHpoolInstance.depositToPool(200, { from: A });
+      await ETHpoolInstance.depositToPool(190, { from: B });
+      await ETHpoolInstance.depositRewards(503, { from: Team });
+      await ETHpoolInstance.depositToPool(100, { from: B });
+      await ETHpoolInstance.depositToPool(700, { from: C });
+      await ETHpoolInstance.depositToPool(54, { from: B });
+      await ETHpoolInstance.depositToPool(1000, { from: A });
+      await ETHpoolInstance.depositToPool(900, { from: A });
+      await ETHpoolInstance.depositRewards(870, { from: Team });
+      await ETHpoolInstance.depositToPool(71, { from: C });
+
+      const balanceA = await ETHpoolInstance.withdrawFunds({ from: A });
+      const balanceB = await ETHpoolInstance.withdrawFunds({ from: B });
+      const balanceC = await ETHpoolInstance.withdrawFunds({ from: C });
+      expect(balanceA.logs[0].args.amount.toNumber()).to.equal(
+        withdrawn(503, 200, 690) +
+          withdrawn(870, 1900, 2754) +
+          withdrawn(0, 0, 71)
+      );
+      expect(balanceB.logs[0].args.amount.toNumber()).to.equal(
+        withdrawn(503, 490, 690) +
+          withdrawn(870, 154, 2754) +
+          withdrawn(0, 0, 71)
+      );
+      expect(balanceC.logs[0].args.amount.toNumber()).to.equal(
+        withdrawn(503, 0, 690) +
+          withdrawn(870, 700, 2754) +
+          withdrawn(0, 71, 71)
       );
     });
   });
