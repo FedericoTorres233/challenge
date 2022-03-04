@@ -1,13 +1,15 @@
-# Smart Contract Challenge
+# Smart Contract Challenge (Not finished yet)
 
-# TODO:
+## **TODO**:
 * ~~Only owner can deposit~~
 * ~~User deposits + times?~~
 * ~~Emit instead of return~~
 * ~~Don't request address manually~~
 * Tests
+* Comment code and refactoring
 * Deploy
 * Web3
+* Explanation (Readme)
 
 ## A) Challenge
 
