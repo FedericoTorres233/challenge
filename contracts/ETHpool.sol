@@ -4,6 +4,7 @@ pragma solidity >=0.6.0;
 
 contract ETHPool{
 
+    event Log(uint256 amount);
     address private owner;
     mapping (address => uint256) percentage;
     Person[] participants;
@@ -23,10 +24,11 @@ contract ETHPool{
         participants.push(Person(msg.sender, userDeposited));
         percentage[msg.sender] += userDeposited;
         pool += userDeposited;
+        emit Log(pool);
     }
 
     function depositRewards(uint256 reward) payable public{
-        require(msg.sender==owner);
+        require(msg.sender==owner,"Only the owner can deposit rewards");
         for(uint256 a=0;a<participants.length;a++){
             address part_addr = participants[a].receiver;
             if(percentage[part_addr] != participants[a].deposit){
