@@ -31,10 +31,10 @@ contract("ETHpool", (account) => {
       const balanceA = await ETHpoolInstance.withdrawFunds({ from: A });
       const balanceB = await ETHpoolInstance.withdrawFunds({ from: B });
       expect(balanceA.logs[0].args.amount.toNumber()).to.equal(
-        (300 * 200) / 300 + 200
+        withdrawn(300, 200, 300)
       );
       expect(balanceB.logs[0].args.amount.toNumber()).to.equal(
-        (300 * 100) / 300 + 100
+        withdrawn(300, 100, 300)
       );
     });
 
@@ -45,10 +45,10 @@ contract("ETHpool", (account) => {
       const balanceA = await ETHpoolInstance.withdrawFunds({ from: A });
       const balanceB = await ETHpoolInstance.withdrawFunds({ from: B });
       expect(balanceA.logs[0].args.amount.toNumber()).to.equal(
-        (300 * 200) / 200 + 200
+        withdrawn(300, 200, 200)
       );
       expect(balanceB.logs[0].args.amount.toNumber()).to.equal(
-        (0 * 100) / 100 + 100
+        withdrawn(0, 100, 100)
       );
     });
 
@@ -58,10 +58,10 @@ contract("ETHpool", (account) => {
       const balanceA = await ETHpoolInstance.withdrawFunds({ from: A });
       const balanceB = await ETHpoolInstance.withdrawFunds({ from: B });
       expect(balanceA.logs[0].args.amount.toNumber()).to.equal(
-        (0 * 200) / 300 + 200
+        withdrawn(0, 200, 300)
       );
       expect(balanceB.logs[0].args.amount.toNumber()).to.equal(
-        (0 * 100) / 300 + 100
+        withdrawn(0, 100, 300)
       );
     });
 
@@ -72,10 +72,10 @@ contract("ETHpool", (account) => {
       const balanceA = await ETHpoolInstance.withdrawFunds({ from: A });
       const balanceB = await ETHpoolInstance.withdrawFunds({ from: B });
       expect(balanceA.logs[0].args.amount.toNumber()).to.equal(
-        (0 * 200) / 300 + 200
+        withdrawn(0, 200, 300)
       );
       expect(balanceB.logs[0].args.amount.toNumber()).to.equal(
-        (0 * 100) / 300 + 100
+        withdrawn(0, 100, 300)
       );
     });
 
@@ -88,10 +88,10 @@ contract("ETHpool", (account) => {
       const balanceA = await ETHpoolInstance.withdrawFunds({ from: A });
       const balanceB = await ETHpoolInstance.withdrawFunds({ from: B });
       expect(balanceA.logs[0].args.amount.toNumber()).to.equal(
-        Math.trunc((500 * 200) / 600 + 200)
+        withdrawn(500, 200, 600)
       );
       expect(balanceB.logs[0].args.amount.toNumber()).to.equal(
-        Math.trunc((500 * 400) / 600 + 400)
+        withdrawn(500, 400, 600)
       );
     });
 
@@ -108,13 +108,13 @@ contract("ETHpool", (account) => {
       const balanceB = await ETHpoolInstance.withdrawFunds({ from: B });
       const balanceC = await ETHpoolInstance.withdrawFunds({ from: C });
       expect(balanceA.logs[0].args.amount.toNumber()).to.equal(
-        Math.trunc((500 * 200) / 1350 + 200)
+        withdrawn(500, 200, 1350)
       );
       expect(balanceB.logs[0].args.amount.toNumber()).to.equal(
-        Math.trunc((500 * 400) / 1350 + 400)
+        withdrawn(500, 400, 1350)
       );
       expect(balanceC.logs[0].args.amount.toNumber()).to.equal(
-        Math.trunc((500 * 750) / 1350 + 750)
+        withdrawn(500, 750, 1350)
       );
     });
 
@@ -139,17 +139,13 @@ contract("ETHpool", (account) => {
       const balanceB = await ETHpoolInstance.withdrawFunds({ from: B });
       const balanceC = await ETHpoolInstance.withdrawFunds({ from: C });
       expect(balanceA.logs[0].args.amount.toNumber()).to.equal(
-        Math.trunc((depositT * depositA) / pool + depositA)
+        withdrawn(depositT, depositA, pool)
       );
       expect(balanceB.logs[0].args.amount.toNumber()).to.equal(
-        Math.trunc(
-          (depositT * (depositB1 + depositB2)) / pool + depositB1 + depositB2
-        )
+        withdrawn(depositT, depositB1 + depositB2, pool)
       );
       expect(balanceC.logs[0].args.amount.toNumber()).to.equal(
-        Math.trunc(
-          (depositT * (depositC1 + depositC2)) / pool + depositC1 + depositC2
-        )
+        withdrawn(depositT, depositC1 + depositC2, pool)
       );
     });
 
