@@ -21,7 +21,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider({
           privateKeys: private_keys,
-          providerOrUrl: `wss://rinkeby.infura.io/ws/v3/${project_id}`,
+          providerOrUrl: `${project_id}`,
           numberOfAddress: 2,
         }),
       network_id: 4, // Rinkeby's id
