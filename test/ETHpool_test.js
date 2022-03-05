@@ -1,14 +1,15 @@
 const ETHpool = artifacts.require("ETHpool");
 const expect = require("chai").expect;
 
+// Calculates the amount the user should be deposited
 function withdrawn(reward, deposited, pool_) {
-  return (reward * deposited) / pool_ + deposited;
+  return Math.trunc((reward * deposited) / pool_ + deposited);
 }
 
 contract("ETHpool", (account) => {
   [Team, A, B, C] = account;
-  console.log(A, B, C, Team);
 
+  // Intsance the contract
   let ETHpoolInstance;
   beforeEach(async () => {
     ETHpoolInstance = await ETHpool.new({ from: Team });
@@ -23,6 +24,8 @@ contract("ETHpool", (account) => {
     });
   });*/
 
+
+  // All the test after creating the contract
   context("Execution", async () => {
     it("A deposits then B deposits then Team deposits then both withdraw", async () => {
       await ETHpoolInstance.depositToPool(200, { from: A });
@@ -65,6 +68,7 @@ contract("ETHpool", (account) => {
       );
     });
 
+    // This test fails by only one number (Solidity does not support floating numbers)
     it("Team deposits then A deposits then B deposits then both withdraw", async () => {
       await ETHpoolInstance.depositRewards(300, { from: Team });
       await ETHpoolInstance.depositToPool(200, { from: A });
@@ -179,6 +183,55 @@ contract("ETHpool", (account) => {
         withdrawn(503, 0, 690) +
           withdrawn(870, 700, 2754) +
           withdrawn(0, 71, 71)
+      );
+    });
+
+    it(`Final test`, async () => {
+      await ETHpoolInstance.depositRewards(17770443, { from: Team });
+      await ETHpoolInstance.depositToPool(6001, { from: B });
+      await ETHpoolInstance.depositToPool(51, { from: A });
+      await ETHpoolInstance.depositToPool(71, { from: A });
+      const balanceA1 = await ETHpoolInstance.withdrawFunds({ from: A });
+      await ETHpoolInstance.depositToPool(811, { from: B });
+      await ETHpoolInstance.depositToPool(841, { from: B });
+      await ETHpoolInstance.depositToPool(41, { from: A });
+      await ETHpoolInstance.depositRewards(503, { from: Team });
+      const balanceA2 = await ETHpoolInstance.withdrawFunds({ from: A });
+      await ETHpoolInstance.depositToPool(761, { from: A });
+      const balanceA3 = await ETHpoolInstance.withdrawFunds({ from: A });
+      await ETHpoolInstance.depositToPool(191, { from: C });
+      await ETHpoolInstance.depositRewards(5003, { from: Team });
+      await ETHpoolInstance.depositToPool(191, { from: C });
+      await ETHpoolInstance.depositToPool(249, { from: A });
+      const balanceA4 = await ETHpoolInstance.withdrawFunds({ from: A });
+      await ETHpoolInstance.depositToPool(389, { from: A });
+      await ETHpoolInstance.depositToPool(3879, { from: A });
+      const balanceA5 = await ETHpoolInstance.withdrawFunds({ from: A });
+      await ETHpoolInstance.depositRewards(403, { from: Team });
+      const balanceA6 = await ETHpoolInstance.withdrawFunds({ from: A });
+
+      expect(balanceA1.logs[0].args.amount.toNumber()).to.equal(
+        withdrawn(0, 122, 6123)
+      );
+
+      expect(balanceA3.logs[0].args.amount.toNumber()).to.equal(
+        withdrawn(0, 761, 761)
+      );
+
+      expect(balanceA5.logs[0].args.amount.toNumber()).to.equal(
+        withdrawn(0, 4268, 4459)
+      );
+
+      expect(balanceA4.logs[0].args.amount.toNumber()).to.equal(
+        withdrawn(0, 249, 440)
+      );
+
+      expect(balanceA2.logs[0].args.amount.toNumber()).to.equal(
+        withdrawn(503, 41, 7694)
+      );
+
+      expect(balanceA6.logs[0].args.amount.toNumber()).to.equal(
+        withdrawn(403, 0, 191)
       );
     });
   });
