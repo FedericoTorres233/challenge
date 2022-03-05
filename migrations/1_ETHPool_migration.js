@@ -1,4 +1,4 @@
-const ETHpool = artifacts.require("ETHPool");
+const ETHpool = artifacts.require("ETHpool");
 
 module.exports = function (deployer) {
   deployer.deploy(ETHpool);
