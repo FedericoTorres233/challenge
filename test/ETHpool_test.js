@@ -24,7 +24,6 @@ contract("ETHpool", (account) => {
     });
   });*/
 
-
   // All the test after creating the contract
   context("Execution", async () => {
     it("A deposits then B deposits then Team deposits then both withdraw", async () => {
