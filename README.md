@@ -1,15 +1,15 @@
-# Smart Contract Challenge (Not finished yet)
+# Smart Contract Challenge
 
 ## **TODO**:
 * ~~Only owner can deposit~~
 * ~~User deposits + times?~~
 * ~~Emit instead of return~~
 * ~~Don't request address manually~~
-* Tests
-* Comment code and refactoring
-* Deploy
-* Web3
-* Explanation (Readme)
+* ~~Tests~~
+* ~~Comment code and refactoring~~
+* ~~Deploy~~
+* Script to query the total amount of ETH held in the contract
+* [Extra] Webapp in React
 
 ## A) Challenge
 
