@@ -1,7 +1,7 @@
 const ETHpool = artifacts.require("ETHpool");
 const expect = require("chai").expect;
 
-// Calculates the amount the user should be deposited
+// Calculates the amount of eth one user owns in the contract
 function withdrawn(reward, deposited, pool_) {
   return Math.trunc((reward * deposited) / pool_ + deposited);
 }
@@ -9,7 +9,7 @@ function withdrawn(reward, deposited, pool_) {
 contract("ETHpool", (account) => {
   [Team, A, B, C] = account;
 
-  // Intsance the contract
+  // Instance the contract
   let ETHpoolInstance;
   beforeEach(async () => {
     ETHpoolInstance = await ETHpool.new({ from: Team });

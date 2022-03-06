@@ -27,7 +27,7 @@ contract ETHpool {
         uint256 deposit;
     }
 
-    // Function that lets users to deposit to pool
+    // Function that lets users deposit to pool
     function depositToPool(uint256 userDeposited) public payable {
         participants.push(Person(msg.sender, userDeposited));
         percentage[msg.sender] += userDeposited;
@@ -35,14 +35,14 @@ contract ETHpool {
         pool_per_user[msg.sender] += userDeposited;
     }
 
-    // Function that lets the Team or owner to deposit rewards
+    // Function that lets the Team or owner deposit rewards
     function depositRewards(uint256 reward) public payable {
         require(msg.sender == owner, "Only the owner can deposit rewards");
 
         for (uint256 i = 0; i < participants.length; i++) {
             address part_addr = participants[i].receiver;
 
-            // This if statement adds all one user's deposits in a single mapping
+            // This if statement adds one user's deposits in a single mapping
             if (!repeated[part_addr].isRepeated) {
                 repeated[part_addr].isRepeated = true;
                 repeated[part_addr].accumulated += participants[i].deposit;
@@ -56,7 +56,7 @@ contract ETHpool {
         delete participants;
     }
 
-    // Function that lets users to withdraw at any time and receive what the deserve
+    // Function that lets users withdraw at any time and receive their funds
     function withdrawFunds() public {
         // Remove the user from the contract
         for (uint256 i = 0; i < participants.length; i++) {
