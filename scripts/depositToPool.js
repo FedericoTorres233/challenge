@@ -114,9 +114,8 @@ async function depositToPoolfunc(funds) {
       'from': `${PUBLIC_KEY}`,
       'to': contract_address,
       'nonce': nonce,
-      'gas': 10000000,
-      'data': contract.methods.depositToPool().encodeABI(),
-      'value': funds
+      'gas': estimateGas,
+      'data': contract.methods.depositToPool(funds).encodeABI()
     };
 
     // Sign the transaction
