@@ -1,6 +1,7 @@
 # Smart Contract Challenge
 
-## **TODO**:
+## **TODO** ":"
+
 * ~~Only owner can deposit~~
 * ~~User deposits + times?~~
 * ~~Emit instead of return~~
@@ -8,10 +9,12 @@
 * ~~Tests~~
 * ~~Comment code and refactoring~~
 * ~~Deploy~~
-* Script to query the total amount of ETH held in the contract
-* [Extra] Webapp in React
+* ~~Script to query the total amount of ETH held in the contract~~
+* ~~[Extra] Create webapp in React~~
+* Use money instead of values
+* [Extra] Webapp should be able to send money to the contract
 
-## A) Challenge
+## Challenge
 
 ### 1) Setup a project and create a contract
 
