@@ -10,7 +10,6 @@ contract ETHpool {
     mapping(address => uint256) pool_per_user;
     Person[] participants;
     uint256 public pool;
-    event SendFunds(address from, address to, uint256 amount);
 
     // Contract creator is the owner
     constructor() {
@@ -73,7 +72,7 @@ contract ETHpool {
         delete pool_per_user[msg.sender];
         delete percentage[msg.sender];
         // Send funds to user
-        emit SendFunds(owner, msg.sender, funds);
+        payable(msg.sender).transfer(funds);
     }
 
     function checkDeposited() public view returns (uint256) {
