@@ -27,6 +27,11 @@ contract ETHpool {
         uint256 deposit;
     }
 
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can deposit rewards");
+        _;
+    }
+
     // Function that lets users deposit to pool
     function depositToPool(uint256 userDeposited) public payable {
         participants.push(Person(msg.sender, userDeposited));
@@ -36,8 +41,7 @@ contract ETHpool {
     }
 
     // Function that lets the Team or owner deposit rewards
-    function depositRewards(uint256 reward) public payable {
-        require(msg.sender == owner, "Only the owner can deposit rewards");
+    function depositRewards(uint256 reward) public payable onlyOwner {
 
         for (uint256 i = 0; i < participants.length; i++) {
             address part_addr = participants[i].receiver;
@@ -72,7 +76,7 @@ contract ETHpool {
         emit SendFunds(owner, msg.sender, funds);
     }
 
-    function checkDeposited() public view returns(uint256){
+    function checkDeposited() public view returns (uint256) {
         return percentage[msg.sender];
     }
 }
