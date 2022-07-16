@@ -32,7 +32,7 @@ contract ETHpool {
     }
 
     // Function that lets users deposit to pool
-    function depositToPool(uint256 userDeposited) public payable {
+    function depositToPool(uint256 userDeposited) private {
         participants.push(Person(msg.sender, userDeposited));
         percentage[msg.sender] += userDeposited;
         pool += userDeposited;
@@ -40,7 +40,7 @@ contract ETHpool {
     }
 
     // Function that lets the Team or owner deposit rewards
-    function depositRewards(uint256 reward) public payable onlyOwner {
+    function depositRewards(uint256 reward) private onlyOwner {
 
         for (uint256 i = 0; i < participants.length; i++) {
             address part_addr = participants[i].receiver;
@@ -57,6 +57,14 @@ contract ETHpool {
         }
         delete pool;
         delete participants;
+    }
+
+    receive() external payable{
+        if (msg.sender == owner){
+            depositRewards(msg.value);
+        }else{
+            depositToPool(msg.value);
+        }
     }
 
     // Function that lets users withdraw at any time and receive their funds
