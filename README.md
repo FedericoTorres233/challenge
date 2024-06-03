@@ -1,19 +1,5 @@
 # Smart Contract Challenge
 
-## **TODO** ":"
-
-* ~~Only owner can deposit~~
-* ~~User deposits + times?~~
-* ~~Emit instead of return~~
-* ~~Don't request address manually~~
-* ~~Tests~~
-* ~~Comment code and refactoring~~
-* ~~Deploy~~
-* ~~Script to query the total amount of ETH held in the contract~~
-* ~~[Extra] Create webapp in React~~
-* Use money instead of values
-* [Extra] Webapp should be able to send money to the contract
-
 ## Challenge
 
 ### 1) Setup a project and create a contract
@@ -66,3 +52,17 @@ Bonus:
 Create a script (or a Hardhat task) to query the total amount of ETH held in the contract.
 
 _You can use any library you prefer: Ethers.js, Web3.js, Web3.py, eth-brownie_
+
+# To do:
+
+* ~~Only owner can deposit~~
+* ~~User deposits + times?~~
+* ~~Emit instead of return~~
+* ~~Don't request address manually~~
+* ~~Tests~~
+* ~~Comment code and refactoring~~
+* ~~Deploy~~
+* ~~Script to query the total amount of ETH held in the contract~~
+* ~~[Extra] Create webapp in React~~
+* Use money instead of values
+* [Extra] Webapp should be able to send money to the contract
